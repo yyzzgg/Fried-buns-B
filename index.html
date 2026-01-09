@@ -9,11 +9,8 @@
             font-family: 'PingFang TC', 'Heiti TC', '微軟正黑體', sans-serif;
             -webkit-font-smoothing: antialiased;
             margin: 0; padding: 0;
-            background-color: #fff8e1;
-            color: #333;
-            font-size: 110%;
-            line-height: 1.6;
-            font-weight: 500;
+            background-color: #fff8e1; color: #333;
+            font-size: 110%; line-height: 1.6; font-weight: 500;
             touch-action: pan-y;
         }
         .header {
@@ -44,17 +41,25 @@
             font-size: 20px; font-weight: 700;
             -webkit-appearance: none; background-color: #fff;
         }
+        .received-container { display: flex; align-items: center; justify-content: center; gap: 10px; }
+        #received-amount { width: 130px; font-size: 1.3em; font-weight: 900; color: #2e7d32; border: 2px solid #4CAF50; }
+
         .qty-button {
             background-color: #4CAF50; color: white; border: 1px solid #4CAF50; 
             width: 45px; padding: 8px 0; font-size: 24px; border-radius: 4px; 
             cursor: pointer; touch-action: manipulation;
             -webkit-user-select: none; user-select: none; font-weight: 900;
         }
-        /* 讓按鈕被按下時有視覺反饋 */
         .qty-button:active { background-color: #388E3C; }
 
+        .btn-clear-small {
+            background-color: #f44336; color: white; border: none; border-radius: 50%;
+            width: 35px; height: 35px; font-size: 18px; display: flex; align-items: center; justify-content: center;
+        }
+        
         .total-row td { font-weight: 900; background-color: #ffe0b2; }
         .change-row td { font-weight: 900; background-color: #e8f5e9; }
+        .total-label { text-align: right !important; padding-right: 20px; font-size: 1.2em; }
         #grand-total, #change-amount { font-size: 1.8em !important; font-weight: 900; color: #d32f2f; }
         #change-amount { color: #2e7d32; }
         
@@ -80,45 +85,30 @@
                     <td>
                         <div class="input-group">
                             <input type="tel" id="qty-sjb" pattern="[0-9]*" inputmode="numeric" oninput="calculateTotal()">
-                            <button class="qty-button" 
-                                    onmousedown="startAdjusting('qty-sjb', -1)" onmouseup="stopAdjusting()" onmouseleave="stopAdjusting()"
-                                    ontouchstart="startAdjusting('qty-sjb', -1)" ontouchend="stopAdjusting()">-</button>
-                            <button class="qty-button" 
-                                    onmousedown="startAdjusting('qty-sjb', 1)" onmouseup="stopAdjusting()" onmouseleave="stopAdjusting()"
-                                    ontouchstart="startAdjusting('qty-sjb', 1)" ontouchend="stopAdjusting()">+</button>
+                            <button class="qty-button" ontouchstart="startAdjusting('qty-sjb', -1)" ontouchend="stopAdjusting()" onmousedown="startAdjusting('qty-sjb', -1)" onmouseup="stopAdjusting()">-</button>
+                            <button class="qty-button" ontouchstart="startAdjusting('qty-sjb', 1)" ontouchend="stopAdjusting()" onmousedown="startAdjusting('qty-sjb', 1)" onmouseup="stopAdjusting()">+</button>
                         </div>
-                    </td>
-                    <td id="subtotal-sjb">0</td>
+                    </td><td id="subtotal-sjb">0</td>
                 </tr>
                 <tr>
                     <td>煎鹹餅</td><td id="price-xb">25</td>
                     <td>
                         <div class="input-group">
                             <input type="tel" id="qty-xb" pattern="[0-9]*" inputmode="numeric" oninput="calculateTotal()">
-                            <button class="qty-button" 
-                                    onmousedown="startAdjusting('qty-xb', -1)" onmouseup="stopAdjusting()" onmouseleave="stopAdjusting()"
-                                    ontouchstart="startAdjusting('qty-xb', -1)" ontouchend="stopAdjusting()">-</button>
-                            <button class="qty-button" 
-                                    onmousedown="startAdjusting('qty-xb', 1)" onmouseup="stopAdjusting()" onmouseleave="stopAdjusting()"
-                                    ontouchstart="startAdjusting('qty-xb', 1)" ontouchend="stopAdjusting()">+</button>
+                            <button class="qty-button" ontouchstart="startAdjusting('qty-xb', -1)" ontouchend="stopAdjusting()" onmousedown="startAdjusting('qty-xb', -1)" onmouseup="stopAdjusting()">-</button>
+                            <button class="qty-button" ontouchstart="startAdjusting('qty-xb', 1)" ontouchend="stopAdjusting()" onmousedown="startAdjusting('qty-xb', 1)" onmouseup="stopAdjusting()">+</button>
                         </div>
-                    </td>
-                    <td id="subtotal-xb">0</td>
+                    </td><td id="subtotal-xb">0</td>
                 </tr>
                 <tr>
                     <td>素麵線羹</td><td id="price-mxg">35</td>
                     <td>
                         <div class="input-group">
                             <input type="tel" id="qty-mxg" pattern="[0-9]*" inputmode="numeric" oninput="calculateTotal()">
-                            <button class="qty-button" 
-                                    onmousedown="startAdjusting('qty-mxg', -1)" onmouseup="stopAdjusting()" onmouseleave="stopAdjusting()"
-                                    ontouchstart="startAdjusting('qty-mxg', -1)" ontouchend="stopAdjusting()">-</button>
-                            <button class="qty-button" 
-                                    onmousedown="startAdjusting('qty-mxg', 1)" onmouseup="stopAdjusting()" onmouseleave="stopAdjusting()"
-                                    ontouchstart="startAdjusting('qty-mxg', 1)" ontouchend="stopAdjusting()">+</button>
+                            <button class="qty-button" ontouchstart="startAdjusting('qty-mxg', -1)" ontouchend="stopAdjusting()" onmousedown="startAdjusting('qty-mxg', -1)" onmouseup="stopAdjusting()">-</button>
+                            <button class="qty-button" ontouchstart="startAdjusting('qty-mxg', 1)" ontouchend="stopAdjusting()" onmousedown="startAdjusting('qty-mxg', 1)" onmouseup="stopAdjusting()">+</button>
                         </div>
-                    </td>
-                    <td id="subtotal-mxg">0</td>
+                    </td><td id="subtotal-mxg">0</td>
                 </tr>
             </tbody>
         </table>
@@ -129,71 +119,103 @@
             <tbody>
                 <tr>
                     <td>豆漿</td><td id="price-dz">20</td>
-                    <td>
-                        <div class="input-group">
-                            <input type="tel" id="qty-dz" pattern="[0-9]*" inputmode="numeric" oninput="calculateTotal()">
-                            <button class="qty-button" ontouchstart="startAdjusting('qty-dz', -1)" ontouchend="stopAdjusting()">-</button>
-                            <button class="qty-button" ontouchstart="startAdjusting('qty-dz', 1)" ontouchend="stopAdjusting()">+</button>
-                        </div>
-                    </td>
-                    <td id="subtotal-dz">0</td>
+                    <td><div class="input-group">
+                        <input type="tel" id="qty-dz" pattern="[0-9]*" oninput="calculateTotal()">
+                        <button class="qty-button" ontouchstart="startAdjusting('qty-dz', -1)" ontouchend="stopAdjusting()" onmousedown="startAdjusting('qty-dz', -1)" onmouseup="stopAdjusting()">-</button>
+                        <button class="qty-button" ontouchstart="startAdjusting('qty-dz', 1)" ontouchend="stopAdjusting()" onmousedown="startAdjusting('qty-dz', 1)" onmouseup="stopAdjusting()">+</button>
+                    </div></td><td id="subtotal-dz">0</td>
                 </tr>
                 <tr>
                     <td>紅茶</td><td id="price-hc">20</td>
-                    <td>
-                        <div class="input-group">
-                            <input type="tel" id="qty-hc" pattern="[0-9]*" inputmode="numeric" oninput="calculateTotal()">
-                            <button class="qty-button" ontouchstart="startAdjusting('qty-hc', -1)" ontouchend="stopAdjusting()">-</button>
-                            <button class="qty-button" ontouchstart="startAdjusting('qty-hc', 1)" ontouchend="stopAdjusting()">+</button>
-                        </div>
-                    </td>
-                    <td id="subtotal-hc">0</td>
+                    <td><div class="input-group">
+                        <input type="tel" id="qty-hc" pattern="[0-9]*" oninput="calculateTotal()">
+                        <button class="qty-button" ontouchstart="startAdjusting('qty-hc', -1)" ontouchend="stopAdjusting()" onmousedown="startAdjusting('qty-hc', -1)" onmouseup="stopAdjusting()">-</button>
+                        <button class="qty-button" ontouchstart="startAdjusting('qty-hc', 1)" ontouchend="stopAdjusting()" onmousedown="startAdjusting('qty-hc', 1)" onmouseup="stopAdjusting()">+</button>
+                    </div></td><td id="subtotal-hc">0</td>
+                </tr>
+                <tr>
+                    <td>紅茶豆漿</td><td id="price-hcdz">20</td>
+                    <td><div class="input-group">
+                        <input type="tel" id="qty-hcdz" pattern="[0-9]*" oninput="calculateTotal()">
+                        <button class="qty-button" ontouchstart="startAdjusting('qty-hcdz', -1)" ontouchend="stopAdjusting()" onmousedown="startAdjusting('qty-hcdz', -1)" onmouseup="stopAdjusting()">-</button>
+                        <button class="qty-button" ontouchstart="startAdjusting('qty-hcdz', 1)" ontouchend="stopAdjusting()" onmousedown="startAdjusting('qty-hcdz', 1)" onmouseup="stopAdjusting()">+</button>
+                    </div></td><td id="subtotal-hcdz">0</td>
+                </tr>
+                <tr>
+                    <td>鮮奶茶</td><td id="price-xnt">35</td>
+                    <td><div class="input-group">
+                        <input type="tel" id="qty-xnt" pattern="[0-9]*" oninput="calculateTotal()">
+                        <button class="qty-button" ontouchstart="startAdjusting('qty-xnt', -1)" ontouchend="stopAdjusting()" onmousedown="startAdjusting('qty-xnt', -1)" onmouseup="stopAdjusting()">-</button>
+                        <button class="qty-button" ontouchstart="startAdjusting('qty-xnt', 1)" ontouchend="stopAdjusting()" onmousedown="startAdjusting('qty-xnt', 1)" onmouseup="stopAdjusting()">+</button>
+                    </div></td><td id="subtotal-xnt">0</td>
                 </tr>
             </tbody>
         </table>
 
         <table style="margin-top: 40px;">
             <tr class="total-row">
-                <td style="text-align:right; padding-right:20px;"><strong>總計金額</strong></td>
-                <td id="grand-total">0</td>
+                <td class="total-label" style="border-right: none;"><strong>總計金額</strong></td>
+                <td id="grand-total" style="border-left: none; width: 35%;">0</td>
+            </tr>
+            <tr>
+                <td class="total-label" style="border-right: none; background-color: #fffde7;"><strong>實收金額</strong></td>
+                <td style="border-left: none; width: 35%; background-color: #fffde7;">
+                    <div class="received-container">
+                        <input type="tel" id="received-amount" pattern="[0-9]*" placeholder="金額" oninput="calculateChange()">
+                        <button class="btn-clear-small" onclick="clearReceivedAmount()">✕</button>
+                    </div>
+                </td>
             </tr>
             <tr class="change-row">
-                <td style="text-align:right; padding-right:20px;"><strong>應找零錢</strong></td>
-                <td id="change-amount">0</td>
+                <td class="total-label" style="border-right: none;"><strong>應找零錢</strong></td>
+                <td id="change-amount" style="border-left: none; width: 35%;">0</td>
             </tr>
         </table>
 
         <div class="action-buttons-container">
-            <button class="button-common save-button" onclick="saveOrder()">儲存訂單</button>
-            <button class="button-common clear-button" onclick="clearQuantities()">全部重置</button>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <button class="button-common export-button" onclick="exportToCSV()">匯出紀錄 (CSV)</button>
+                <button class="button-common delete-all-button" onclick="deleteAllOrders()">清空歷史</button>
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <button class="button-common save-button" onclick="saveOrder()">儲存訂單</button>
+                <button class="button-common clear-button" onclick="clearQuantities()">全部重置</button>
+            </div>
         </div>
         
-        <p style="text-align: center; margin-top: 15px; font-size: 0.9em; color: #666;">v260110.19</p>
+        <p style="text-align: center; margin-top: 15px; font-size: 0.9em; color: #666;">v260110.21</p>
+        
+        <div id="history-container">
+            <h2 style="margin-top: 40px; border-bottom: 2px solid #4CAF50; color: #4CAF50;">歷史訂單記錄</h2>
+            <p id="no-history-msg" style="color: #999; text-align: center; margin-top: 20px;">點擊「儲存訂單」後，訂單將會顯示在此處。</p>
+        </div>
     </div>
 
     <script>
-        const items = ['sjb', 'xb', 'mxg', 'dz', 'hc'];
+        const items = ['sjb', 'xb', 'mxg', 'dz', 'hc', 'hcdz', 'xnt'];
         let adjustTimer;
-        let isLongPress = false;
 
-        // 長按累加/累減核心邏輯
+        window.onload = function() {
+            const savedHistory = localStorage.getItem('orderHistory');
+            if (savedHistory && savedHistory.trim() !== "") {
+                const historyContainer = document.getElementById('history-container');
+                const noHistoryMsg = document.getElementById('no-history-msg');
+                if (noHistoryMsg) noHistoryMsg.remove();
+                historyContainer.innerHTML += savedHistory;
+            }
+            calculateTotal();
+        };
+
         function startAdjusting(itemId, change) {
-            // 先執行一次短點擊
             adjustQuantity(itemId, change);
-            
-            // 設定延遲，如果按住超過 500 毫秒，開始連續執行
             adjustTimer = setTimeout(() => {
-                isLongPress = true;
-                adjustTimer = setInterval(() => {
-                    adjustQuantity(itemId, change);
-                }, 100); // 每 100 毫秒增加一次
+                adjustTimer = setInterval(() => { adjustQuantity(itemId, change); }, 100);
             }, 500);
         }
 
         function stopAdjusting() {
             clearTimeout(adjustTimer);
             clearInterval(adjustTimer);
-            isLongPress = false;
         }
 
         function adjustQuantity(itemId, change) {
@@ -214,15 +236,83 @@
                 grandTotal += subtotal;
             });
             document.getElementById('grand-total').textContent = grandTotal;
+            calculateChange();
         }
 
+        function calculateChange() {
+            const total = parseFloat(document.getElementById('grand-total').textContent) || 0;
+            const received = parseFloat(document.getElementById('received-amount').value) || 0;
+            document.getElementById('change-amount').textContent = (received >= total && total > 0) ? (received - total) : 0;
+        }
+
+        function clearReceivedAmount() { document.getElementById('received-amount').value = ''; calculateChange(); }
+
         function clearQuantities() {
-            document.querySelectorAll('input[type="tel"]').forEach(input => { input.value = ''; });
+            document.querySelectorAll('table input[type="tel"]').forEach(input => { input.value = ''; });
             calculateTotal();
         }
 
         function saveOrder() {
-            alert("訂單已儲存 (測試版)");
+            let orderDetails = [];
+            let currentGrandTotal = 0;
+            items.forEach(item => {
+                const qty = parseInt(document.getElementById(`qty-${item}`).value) || 0;
+                if (qty > 0) {
+                    const name = document.getElementById(`qty-${item}`).closest('tr').querySelector('td:first-child').textContent;
+                    const subtotal = parseFloat(document.getElementById(`subtotal-${item}`).textContent);
+                    orderDetails.push({ name, qty, subtotal });
+                    currentGrandTotal += subtotal;
+                }
+            });
+
+            if (orderDetails.length === 0) return alert("訂單為空！");
+
+            const timestamp = new Date().toLocaleString('zh-TW');
+            let orderHTML = `<div class="saved-order-item" style="border: 2px solid #ccc; padding: 15px; margin-bottom: 20px; border-radius: 8px; background-color: #f9f9f9;">
+                <p style="font-weight: bold; color: #666;">儲存時間：${timestamp}</p>
+                <table style="width:100%; font-size: 0.9em; border-collapse: collapse; margin-top:0;">
+                    <tr style="background-color: #e0f2f1;"><th style="border:none; text-align:left;">品項</th><th style="border:none;">數量</th><th style="border:none;">小計</th></tr>`;
+            orderDetails.forEach(item => { orderHTML += `<tr><td style="border:none; text-align:left;">${item.name}</td><td style="border:none;">${item.qty}</td><td style="border:none; font-weight:bold;">${item.subtotal}</td></tr>`; });
+            orderHTML += `</table><p style="text-align: right; font-weight: bold; color: #d32f2f; margin-top:10px; display:flex; justify-content:space-between;"><span>總計：NT$ ${currentGrandTotal}</span><button onclick="deleteOrder(this)" style="background:#f44336; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;">刪除</button></p></div>`;
+            
+            const historyContainer = document.getElementById('history-container');
+            const noHistoryMsg = document.getElementById('no-history-msg');
+            if (noHistoryMsg) noHistoryMsg.remove();
+            historyContainer.insertAdjacentHTML('beforeend', orderHTML);
+            localStorage.setItem('orderHistory', historyContainer.innerHTML);
+            clearQuantities();
+            alert("訂單已儲存！");
+        }
+
+        function deleteOrder(btn) {
+            if (!confirm("確定刪除？")) return;
+            btn.closest('.saved-order-item').remove();
+            localStorage.setItem('orderHistory', document.getElementById('history-container').innerHTML);
+        }
+
+        function deleteAllOrders() {
+            if (!confirm("確定清空所有紀錄？")) return;
+            localStorage.removeItem('orderHistory');
+            location.reload();
+        }
+
+        function exportToCSV() {
+            const orders = document.querySelectorAll('.saved-order-item');
+            if (orders.length === 0) return alert("無紀錄");
+            let csv = "\uFEFF訂單,時間,總計,品項,數量,小計\n";
+            orders.forEach((div, idx) => {
+                const time = div.querySelector('p').textContent.replace('儲存時間：', '');
+                const total = div.querySelector('span').textContent.replace('總計：NT$ ', '');
+                div.querySelectorAll('table tr:not(:first-child)').forEach(tr => {
+                    const tds = tr.querySelectorAll('td');
+                    csv += `${idx+1},"${time}","${total}","${tds[0].textContent}",${tds[1].textContent},${tds[2].textContent}\n`;
+                });
+            });
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = `Orders_${new Date().getTime()}.csv`;
+            a.click();
         }
     </script>
 </body>
