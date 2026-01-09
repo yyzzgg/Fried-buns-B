@@ -17,12 +17,6 @@
             font-weight: 500;
             touch-action: pan-y;
         }
-        /* 移除數字輸入框的上下小箭頭 */
-        input::-webkit-outer-spin-button,
-        input::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
         .header {
             background-color: #ff9800;
             color: white;
@@ -51,7 +45,8 @@
         th:nth-child(3), td:nth-child(3) { width: 26%; }
         th:nth-child(4), td:nth-child(4) { width: 22%; }
 
-        input[type="number"] {
+        /* 使用 type="tel" 的樣式優化 */
+        input[type="tel"] {
             width: 65px; 
             padding: 8px 5px;
             text-align: center; 
@@ -61,6 +56,7 @@
             font-weight: 700;
             margin: 0; 
             -webkit-appearance: none;
+            background-color: #fff;
         }
         .received-container { display: flex; align-items: center; justify-content: center; gap: 10px; }
         #received-amount { width: 130px; font-size: 1.3em; font-weight: 900; color: #2e7d32; border: 2px solid #4CAF50; }
@@ -116,7 +112,7 @@
                     <td>素食生煎包</td><td id="price-sjb">6</td>
                     <td>
                         <div class="input-group">
-                            <input type="number" id="qty-sjb" inputmode="numeric" pattern="\d*" autocomplete="off" oninput="calculateTotal()">
+                            <input type="tel" id="qty-sjb" pattern="[0-9]*" inputmode="numeric" autocomplete="off" oninput="calculateTotal()">
                             <button class="qty-button" onclick="adjustQuantity('qty-sjb', -1)">-</button>
                             <button class="qty-button" onclick="adjustQuantity('qty-sjb', 1)">+</button>
                         </div>
@@ -127,7 +123,7 @@
                     <td>煎鹹餅</td><td id="price-xb">25</td>
                     <td>
                         <div class="input-group">
-                            <input type="number" id="qty-xb" inputmode="numeric" pattern="\d*" autocomplete="off" oninput="calculateTotal()">
+                            <input type="tel" id="qty-xb" pattern="[0-9]*" inputmode="numeric" autocomplete="off" oninput="calculateTotal()">
                             <button class="qty-button" onclick="adjustQuantity('qty-xb', -1)">-</button>
                             <button class="qty-button" onclick="adjustQuantity('qty-xb', 1)">+</button>
                         </div>
@@ -138,7 +134,7 @@
                     <td>素麵線羹</td><td id="price-mxg">35</td>
                     <td>
                         <div class="input-group">
-                            <input type="number" id="qty-mxg" inputmode="numeric" pattern="\d*" autocomplete="off" oninput="calculateTotal()">
+                            <input type="tel" id="qty-mxg" pattern="[0-9]*" inputmode="numeric" autocomplete="off" oninput="calculateTotal()">
                             <button class="qty-button" onclick="adjustQuantity('qty-mxg', -1)">-</button>
                             <button class="qty-button" onclick="adjustQuantity('qty-mxg', 1)">+</button>
                         </div>
@@ -158,7 +154,7 @@
                     <td>豆漿</td><td id="price-dz">20</td>
                     <td>
                         <div class="input-group">
-                            <input type="number" id="qty-dz" inputmode="numeric" pattern="\d*" autocomplete="off" oninput="calculateTotal()">
+                            <input type="tel" id="qty-dz" pattern="[0-9]*" inputmode="numeric" autocomplete="off" oninput="calculateTotal()">
                             <button class="qty-button" onclick="adjustQuantity('qty-dz', -1)">-</button>
                             <button class="qty-button" onclick="adjustQuantity('qty-dz', 1)">+</button>
                         </div>
@@ -169,7 +165,7 @@
                     <td>紅茶</td><td id="price-hc">20</td>
                     <td>
                         <div class="input-group">
-                            <input type="number" id="qty-hc" inputmode="numeric" pattern="\d*" autocomplete="off" oninput="calculateTotal()">
+                            <input type="tel" id="qty-hc" pattern="[0-9]*" inputmode="numeric" autocomplete="off" oninput="calculateTotal()">
                             <button class="qty-button" onclick="adjustQuantity('qty-hc', -1)">-</button>
                             <button class="qty-button" onclick="adjustQuantity('qty-hc', 1)">+</button>
                         </div>
@@ -180,7 +176,7 @@
                     <td>紅茶豆漿</td><td id="price-hcdz">20</td>
                     <td>
                         <div class="input-group">
-                            <input type="number" id="qty-hcdz" inputmode="numeric" pattern="\d*" autocomplete="off" oninput="calculateTotal()">
+                            <input type="tel" id="qty-hcdz" pattern="[0-9]*" inputmode="numeric" autocomplete="off" oninput="calculateTotal()">
                             <button class="qty-button" onclick="adjustQuantity('qty-hcdz', -1)">-</button>
                             <button class="qty-button" onclick="adjustQuantity('qty-hcdz', 1)">+</button>
                         </div>
@@ -191,7 +187,7 @@
                     <td>鮮奶茶</td><td id="price-xnt">35</td>
                     <td>
                         <div class="input-group">
-                            <input type="number" id="qty-xnt" inputmode="numeric" pattern="\d*" autocomplete="off" oninput="calculateTotal()">
+                            <input type="tel" id="qty-xnt" pattern="[0-9]*" inputmode="numeric" autocomplete="off" oninput="calculateTotal()">
                             <button class="qty-button" onclick="adjustQuantity('qty-xnt', -1)">-</button>
                             <button class="qty-button" onclick="adjustQuantity('qty-xnt', 1)">+</button>
                         </div>
@@ -210,7 +206,7 @@
                 <td class="total-label" style="border-right: none; background-color: #fffde7;"><strong>實收金額</strong></td>
                 <td style="border-left: none; width: 35%; background-color: #fffde7;">
                     <div class="received-container">
-                        <input type="number" id="received-amount" inputmode="numeric" pattern="\d*" autocomplete="off" placeholder="金額" oninput="calculateChange()">
+                        <input type="tel" id="received-amount" pattern="[0-9]*" inputmode="numeric" autocomplete="off" placeholder="金額" oninput="calculateChange()">
                         <button class="btn-clear-small" onclick="clearReceivedAmount()">✕</button>
                     </div>
                 </td>
@@ -232,7 +228,7 @@
             </div>
         </div>
         
-        <p style="text-align: center; margin-top: 15px; font-size: 0.9em; color: #666;">v260110.17</p>
+        <p style="text-align: center; margin-top: 15px; font-size: 0.9em; color: #666;">v260110.18</p>
         
         <div id="history-container">
             <h2 style="margin-top: 40px; border-bottom: 2px solid #4CAF50; color: #4CAF50;">歷史訂單記錄</h2>
@@ -304,7 +300,7 @@
         }
 
         function clearQuantities() {
-            document.querySelectorAll('input[type="number"]').forEach(input => { input.value = ''; });
+            document.querySelectorAll('input[type="tel"]').forEach(input => { input.value = ''; });
             calculateTotal();
         }
 
