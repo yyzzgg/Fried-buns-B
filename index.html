@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吉尼森美語繳費通知單</title> 
+    <style>
+        body {
+            font-family: '微軟正黑體', 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fff8e1;
+            color: #333;
+            font-size: 110%;
+            line-height: 1.6;
+        }
+        .header {
+            background-color: #ff9800;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .header h1 {
+            margin: 5px 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        h2 {
+            color: #d32f2f;
+            border-bottom: 2px solid #ff9800;
+            padding-bottom: 5px;
+            margin-top: 30px;
+            font-size: 1.8em;
+        }
+        h3 {
+            color: #4CAF50;
+            border-left: 5px solid #4CAF50;
+            padding-left: 10px;
+            margin-top: 30px;
+            font-size: 1.4em;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 1em;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 12px 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #f5e0a9;
+            color: #333;
+        }
+        td:nth-child(1) {
+            font-weight: bold;
+            text-align: center;
+        }
+        td[id^="price-"], td[id^="subtotal-"] {
+            font-size: 1.15em; 
+            font-weight: bold; 
+            color: #333;
+        }
+        .input-group {
+            display: flex; 
+            align-items: stretch; 
+            justify-content: center;
+            max-width: 280px; 
+            margin: 0 auto;
+            gap: 5px; 
+        }
+        input[type="number"] {
+            width: 70px; 
+            padding: 8px 5px;
+            text-align: center; 
+            border: 1px solid #ccc;
+            border-radius: 4px; 
+            font-size: 16px; 
+            margin: 0; 
+        }
+        .qty-button {
+            background-color: #4CAF50; 
+            color: white;
+            border: 1px solid #4CAF50; 
+            width: 50px; 
+            padding: 8px 0; 
+            cursor: pointer;
+            font-size: 16px; 
+            font-weight: bold;
+            line-height: 1; 
+            transition: background-color 0.2s;
+            border-radius: 4px; 
+            margin: 0; 
+        }
+        .qty-button:hover {
+            background-color: #43A047;
+        }
+        .total-row td {
+            font-weight: bold;
+            background-color: #ffe0b2;
+            font-size: 1.3em;
+        }
+        #grand-total {
+            font-size: 1.6em !important; 
+            font-weight: bold;
+            color: #d32f2f; 
+            text-align: center !important; 
+        }
+        .action-buttons-container {
+            display: flex;
+            justify-content: space-between; 
+            align-items: flex-start;
+            margin-top: 20px;
+            gap: 10px;
+        }
+        .left-buttons-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .right-buttons-group {
+            display: flex;
+            gap: 10px;
+        }
+        .button-common {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 1em;
+            color: white;
+            text-align: center;
+        }
+        .export-button { background-color: #2196F3; }
+        .export-button:hover { background-color: #1976D2; }
+        .delete-all-button, .clear-button { background-color: #f44336; }
+        .delete-all-button:hover, .clear-button:hover { background-color: #d32f2f; }
+        .save-button { background-color: #4CAF50; }
+        .save-button:hover { background-color: #43A047; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>🥟 素食生煎包 🥟</h1>
+    </div>
+
+    <div class="container">
+        
+        <h2>品項與金額計算</h2>
+
+        <h3>主食</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>品項名稱</th>
+                    <th>單價 (NT$)</th>
+                    <th>購買數量</th>
+                    <th>小計 (NT$)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>素食生煎包</td>
+                    <td id="price-sjb">6</td>
+                    <td>
+                        <div class="input-group">
+                            <input type="number" id="qty-sjb" min="0" oninput="calculateTotal()">
+                            <button class="qty-button decrement" onclick="adjustQuantity('qty-sjb', -1)">-</button>
+                            <button class="qty-button increment" onclick="adjustQuantity('qty-sjb', 1)">+</button>
+                        </div>
+                    </td>
+                    <td id="subtotal-sjb">0</td>
+                </tr>
+                <tr>
+                    <td>煎鹹餅</td>
+                    <td id="price-xb">25</td>
+                    <td>
+                        <div class="input-group">
+                            <input type="number" id="qty-xb" min="0" oninput="calculateTotal()">
+                            <button class="qty-button decrement" onclick="adjustQuantity('qty-xb', -1)">-</button>
+                            <button class="qty-button increment" onclick="adjustQuantity('qty-xb', 1)">+</button>
+                        </div>
+                    </td>
+                    <td id="subtotal-xb">0</td>
+                </tr>
+                <tr>
+                    <td>素麵線羹</td>
+                    <td id="price-mxg">35</td>
+                    <td>
+                        <div class="input-group">
+                            <input type="number" id="qty-mxg" min="0" oninput="calculateTotal()">
+                            <button class="qty-button decrement" onclick="adjustQuantity('qty-mxg', -1)">-</button>
+                            <button class="qty-button increment" onclick="adjustQuantity('qty-mxg', 1)">+</button>
+                        </div>
+                    </td>
+                    <td id="subtotal-mxg">0</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h3>飲品</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>品項名稱</th>
+                    <th>單價 (NT$)</th>
+                    <th>購買數量</th>
+                    <th>小計 (NT$)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>豆漿</td>
+                    <td id="price-dz">20</td>
+                    <td>
+                        <div class="input-group">
+                            <input type="number" id="qty-dz" min="0" oninput="calculateTotal()">
+                            <button class="qty-button decrement" onclick="adjustQuantity('qty-dz', -1)">-</button>
+                            <button class="qty-button increment" onclick="adjustQuantity('qty-dz', 1)">+</button>
+                        </div>
+                    </td>
+                    <td id="subtotal-dz">0</td>
+                </tr>
+                <tr>
+                    <td>紅茶</td>
+                    <td id="price-hc">20</td>
+                    <td>
+                        <div class="input-group">
+                            <input type="number" id="qty-hc" min="0" oninput="calculateTotal()">
+                            <button class="qty-button decrement" onclick="adjustQuantity('qty-hc', -1)">-</button>
+                            <button class="qty-button increment" onclick="adjustQuantity('qty-hc', 1)">+</button>
+                        </div>
+                    </td>
+                    <td id="subtotal-hc">0</td>
+                </tr>
+                <tr>
+                    <td>紅茶豆漿</td>
+                    <td id="price-hcdz">20</td>
+                    <td>
+                        <div class="input-group">
+                            <input type="number" id="qty-hcdz" min="0" oninput="calculateTotal()">
+                            <button class="qty-button decrement" onclick="adjustQuantity('qty-hcdz', -1)">-</button>
+                            <button class="qty-button increment" onclick="adjustQuantity('qty-hcdz', 1)">+</button>
+                        </div>
+                    </td>
+                    <td id="subtotal-hcdz">0</td>
+                </tr>
+                <tr>
+                    <td>鮮奶茶</td>
+                    <td id="price-xnt">35</td>
+                    <td>
+                        <div class="input-group">
+                            <input type="number" id="qty-xnt" min="0" oninput="calculateTotal()">
+                            <button class="qty-button decrement" onclick="adjustQuantity('qty-xnt', -1)">-</button>
+                            <button class="qty-button increment" onclick="adjustQuantity('qty-xnt', 1)">+</button>
+                        </div>
+                    </td>
+                    <td id="subtotal-xnt">0</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table style="margin-top: 40px;">
+            <tr class="total-row">
+                <td colspan="3" style="text-align: right; border-right: none;"><strong>總計金額</strong></td>
+                <td id="grand-total" style="border-left: none;">0</td>
+            </tr>
+        </table>
+
+        <div class="action-buttons-container">
+            <div class="left-buttons-group">
+                <button class="button-common export-button" onclick="exportToCSV()">匯出歷史紀錄 (CSV)</button>
+                <button class="button-common delete-all-button" onclick="deleteAllOrders()">清空所有紀錄</button>
+            </div>
+            
+            <div class="right-buttons-group">
+                <button class="button-common save-button" onclick="saveOrder()">儲存訂單</button>
+                <button class="button-common clear-button" onclick="clearQuantities()">清空訂單數量</button>
+            </div>
+        </div>
+        
+        <p style="text-align: center; margin-top: 15px; font-size: 0.9em; color: #666;">v260105.6</p>
+        
+        <div id="history-container">
+            <h2 style="margin-top: 40px; border-bottom: 2px solid #4CAF50; color: #4CAF50;">歷史訂單記錄</h2>
+            <p id="no-history-msg" style="color: #999; text-align: center; margin-top: 20px;">點擊「儲存訂單」後，訂單將會顯示在此處。</p>
+        </div>
+
+    </div>
+
+    <script>
+        const items = ['sjb', 'xb', 'mxg', 'dz', 'hc', 'hcdz', 'xnt'];
+
+        window.onload = function() {
+            const savedHistory = localStorage.getItem('orderHistory');
+            if (savedHistory && savedHistory.trim() !== "") {
+                const historyContainer = document.getElementById('history-container');
+                const noHistoryMsg = document.getElementById('no-history-msg');
+                if (noHistoryMsg) noHistoryMsg.remove();
+                historyContainer.innerHTML += savedHistory;
+            }
+            calculateTotal();
+        };
+
+        function updateLocalStorage() {
+            const orderItems = document.querySelectorAll('.saved-order-item');
+            let combinedHTML = "";
+            orderItems.forEach(item => {
+                combinedHTML += item.outerHTML;
+            });
+            localStorage.setItem('orderHistory', combinedHTML);
+        }
+
+        function adjustQuantity(itemId, change) {
+            const qtyInput = document.getElementById(itemId);
+            let currentQty = parseInt(qtyInput.value) || 0;
+            let newQty = Math.max(0, currentQty + change);
+            qtyInput.value = (newQty === 0) ? '' : newQty;
+            calculateTotal();
+        }
+
+        function calculateTotal() {
+            let grandTotal = 0;
+            items.forEach(item => {
+                const priceElement = document.getElementById(`price-${item}`);
+                const qtyElement = document.getElementById(`qty-${item}`);
+                const subtotalElement = document.getElementById(`subtotal-${item}`);
+                if (priceElement && qtyElement && subtotalElement) {
+                    const price = parseFloat(priceElement.textContent);
+                    const qty = parseInt(qtyElement.value) || 0;
+                    const subtotal = price * qty;
+                    subtotalElement.textContent = subtotal.toFixed(0);
+                    grandTotal += subtotal;
+                }
+            });
+            document.getElementById('grand-total').textContent = grandTotal.toFixed(0);
+        }
+
+        function clearQuantities() {
+            document.querySelectorAll('input[type="number"]').forEach(input => input.value = '');
+            calculateTotal();
+        }
+
+        function saveOrder() {
+            let orderDetails = [];
+            let currentGrandTotal = 0;
+
+            items.forEach(item => {
+                const itemID = `qty-${item}`;
+                const itemQty = parseInt(document.getElementById(itemID).value) || 0;
+                if (itemQty > 0) {
+                    const itemName = document.getElementById(itemID).closest('tr').querySelector('td:first-child').textContent;
+                    const itemPrice = parseFloat(document.getElementById(`price-${item}`).textContent);
+                    const itemSubtotal = itemPrice * itemQty;
+                    orderDetails.push({ name: itemName, qty: itemQty, subtotal: itemSubtotal });
+                    currentGrandTotal += itemSubtotal;
+                }
+            });
+
+            if (orderDetails.length === 0) {
+                alert("目前訂單沒有任何品項，無法儲存。");
+                return;
+            }
+
+            const timestamp = new Date().toLocaleString('zh-TW', {
+                year: 'numeric', month: '2-digit', day: '2-digit', 
+                hour: '2-digit', minute: '2-digit', second: '2-digit'
+            });
+
+            let orderHTML = `
+                <div class="saved-order-item" style="border: 2px solid #ccc; padding: 15px; margin-bottom: 20px; border-radius: 8px; background-color: #f9f9f9; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+                    <p style="font-weight: bold; margin-bottom: 10px; color: #666; border-bottom: 1px dashed #ddd; padding-bottom: 5px;">儲存時間：${timestamp}</p>
+                    <table style="width: 100%; font-size: 0.9em; margin-top: 0; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background-color: #e0f2f1;">
+                                <th style="border: none; text-align: left; padding: 5px;">品項</th>
+                                <th style="border: none; width: 60px; padding: 5px;">數量</th>
+                                <th style="border: none; width: 80px; padding: 5px; text-align: center;">小計</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+
+            orderDetails.forEach(item => {
+                orderHTML += `
+                    <tr>
+                        <td style="border: none; text-align: left; padding: 3px 5px;">${item.name}</td>
+                        <td style="border: none; padding: 3px 5px; text-align: center;">${item.qty}</td>
+                        <td style="border: none; padding: 3px 5px; text-align: center; font-weight: bold;">${item.subtotal}</td>
+                    </tr>
+                `;
+            });
+            
+            orderHTML += `
+                        </tbody>
+                    </table>
+                    <p style="text-align: right; font-size: 1.2em; font-weight: bold; margin-top: 10px; color: #d32f2f; padding-top: 5px; border-top: 1px solid #ddd; display: flex; justify-content: space-between; align-items: center;">
+                        <span>總計：NT$ ${currentGrandTotal}</span>
+                        <button onclick="deleteOrder(this)" style="background-color: #f44336; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8em;">刪除此筆訂單</button>
+                    </p>
+                </div>
+            `;
+
+            const historyContainer = document.getElementById('history-container');
+            const noHistoryMsg = document.getElementById('no-history-msg');
+            if (noHistoryMsg) noHistoryMsg.remove();
+
+            historyContainer.insertAdjacentHTML('beforeend', orderHTML);
+            updateLocalStorage();
+            clearQuantities(); 
+            alert(`訂單已儲存！`);
+        }
+
+        function deleteOrder(buttonElement) {
+            if (!confirm("確定要刪除這筆訂單紀錄嗎？")) return;
+            const orderContainer = buttonElement.closest('.saved-order-item');
+            if (orderContainer) {
+                orderContainer.remove();
+                updateLocalStorage();
+            }
+            const historyContainer = document.getElementById('history-container');
+            if (historyContainer.querySelectorAll('.saved-order-item').length === 0) {
+                 if (!document.getElementById('no-history-msg')) {
+                    historyContainer.insertAdjacentHTML('beforeend', '<p id="no-history-msg" style="color: #999; text-align: center; margin-top: 20px;">點擊「儲存訂單」後，訂單將會顯示在此處。</p>');
+                 }
+                 localStorage.removeItem('orderHistory');
+            }
+        }
+
+        function deleteAllOrders() {
+            if (!confirm("⚠️ 警告：這將會清除「所有」已儲存的歷史訂單紀錄且無法復原！確定要清空嗎？")) return;
+            
+            const historyContainer = document.getElementById('history-container');
+            const orderItems = historyContainer.querySelectorAll('.saved-order-item');
+            orderItems.forEach(item => item.remove());
+            
+            if (!document.getElementById('no-history-msg')) {
+                historyContainer.insertAdjacentHTML('beforeend', '<p id="no-history-msg" style="color: #999; text-align: center; margin-top: 20px;">點擊「儲存訂單」後，訂單將會顯示在此處。</p>');
+            }
+            
+            localStorage.removeItem('orderHistory');
+            alert("歷史紀錄已全部清空。");
+        }
+        
+        function exportToCSV() {
+            const orders = document.querySelectorAll('.saved-order-item');
+            if (orders.length === 0) {
+                alert("目前沒有紀錄可以匯出。");
+                return;
+            }
+            let csvContent = "訂單ID,儲存時間,訂單總計,品項名稱,數量,小計\n";
+            let orderCount = 1; 
+            orders.forEach(orderDiv => {
+                const currentOrderID = orderCount++; 
+                const timestamp = orderDiv.querySelector('p:first-child').textContent.replace('儲存時間：', '').trim();
+                const total = orderDiv.querySelector('p:last-child > span').textContent.replace('總計：NT$ ', '').trim();
+                orderDiv.querySelectorAll('tbody tr').forEach(row => {
+                    const cells = row.querySelectorAll('td');
+                    csvContent += `${currentOrderID},"${timestamp}","${total}","${cells[0].textContent.trim()}",${cells[1].textContent.trim()},${cells[2].textContent.trim()}\n`;
+                });
+            });
+            const blob = new Blob([new Uint8Array([0xEF, 0xBB, 0xBF]), csvContent], { type: 'text/csv;charset=utf-8;' }); 
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `OrderHistory_${new Date().toISOString().slice(0, 10).replace(/-/g, '')}.csv`;
+            link.click();
+        }
+    </script>
+
+</body>
+</html>
