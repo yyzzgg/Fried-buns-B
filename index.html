@@ -94,6 +94,14 @@
             font-size: 16px; 
             margin: 0; 
         }
+        /* 實收金額專用樣式 */
+        #received-amount {
+            width: 100px;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #2e7d32;
+            border: 2px solid #4CAF50;
+        }
         .qty-button {
             background-color: #4CAF50; 
             color: white;
@@ -114,18 +122,24 @@
         .total-row td {
             font-weight: bold;
             background-color: #ffe0b2;
-            font-size: 1.3em;
+        }
+        .change-row td {
+            font-weight: bold;
+            background-color: #e8f5e9;
         }
         .total-label {
             text-align: right !important;
             padding-right: 20px;
+            font-size: 1.2em;
         }
-        #grand-total {
+        #grand-total, #change-amount {
             font-size: 1.6em !important; 
             font-weight: bold;
             color: #d32f2f; 
             text-align: center !important;
-            width: 150px; 
+        }
+        #change-amount {
+            color: #2e7d32; /* 找零使用綠色 */
         }
         .action-buttons-container {
             display: flex;
@@ -286,7 +300,17 @@
         <table style="margin-top: 40px;">
             <tr class="total-row">
                 <td class="total-label" style="border-right: none;"><strong>總計金額</strong></td>
-                <td id="grand-total" style="border-left: none; width: 30%;">0</td>
+                <td id="grand-total" style="border-left: none; width: 35%;">0</td>
+            </tr>
+            <tr>
+                <td class="total-label" style="border-right: none; background-color: #fffde7;"><strong>實收金額</strong></td>
+                <td style="border-left: none; width: 35%; background-color: #fffde7;">
+                    <input type="tel" id="received-amount" inputmode="numeric" pattern="[0-9]*" placeholder="輸入金額" oninput="calculateChange()">
+                </td>
+            </tr>
+            <tr class="change-row">
+                <td class="total-label" style="border-right: none;"><strong>應找零錢</strong></td>
+                <td id="change-amount" style="border-left: none; width: 35%;">0</td>
             </tr>
         </table>
 
@@ -298,11 +322,11 @@
             
             <div class="right-buttons-group">
                 <button class="button-common save-button" onclick="saveOrder()">儲存訂單</button>
-                <button class="button-common clear-button" onclick="clearQuantities()">清空訂單數量</button>
+                <button class="button-common clear-button" onclick="clearQuantities()">清空全部欄位</button>
             </div>
         </div>
         
-        <p style="text-align: center; margin-top: 15px; font-size: 0.9em; color: #666;">v260105.9</p>
+        <p style="text-align: center; margin-top: 15px; font-size: 0.9em; color: #666;">v260105.10</p>
         
         <div id="history-container">
             <h2 style="margin-top: 40px; border-bottom: 2px solid #4CAF50; color: #4CAF50;">歷史訂單記錄</h2>
@@ -357,11 +381,24 @@
                 }
             });
             document.getElementById('grand-total').textContent = grandTotal.toFixed(0);
+            calculateChange(); // 數量改變時也重新計算找零
+        }
+
+        function calculateChange() {
+            const total = parseFloat(document.getElementById('grand-total').textContent) || 0;
+            const received = parseFloat(document.getElementById('received-amount').value) || 0;
+            const changeElement = document.getElementById('change-amount');
+            
+            if (received >= total && total > 0) {
+                changeElement.textContent = (received - total).toFixed(0);
+            } else {
+                changeElement.textContent = "0";
+            }
         }
 
         function clearQuantities() {
             document.querySelectorAll('input').forEach(input => {
-                if(input.id.startsWith('qty-')) input.value = '';
+                input.value = '';
             });
             calculateTotal();
         }
