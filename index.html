@@ -51,16 +51,23 @@
             border-collapse: collapse;
             margin-top: 10px;
             font-size: 1em;
+            table-layout: fixed;
         }
         th, td {
             border: 1px solid #ccc;
             padding: 12px 10px;
             text-align: center;
+            overflow: hidden;
         }
         th {
             background-color: #f5e0a9;
             color: #333;
         }
+        th:nth-child(1), td:nth-child(1) { width: 35%; }
+        th:nth-child(2), td:nth-child(2) { width: 20%; }
+        th:nth-child(3), td:nth-child(3) { width: 25%; }
+        th:nth-child(4), td:nth-child(4) { width: 20%; }
+
         td:nth-child(1) {
             font-weight: bold;
             text-align: center;
@@ -78,8 +85,8 @@
             margin: 0 auto;
             gap: 5px; 
         }
-        input[type="number"] {
-            width: 70px; 
+        input {
+            width: 60px; 
             padding: 8px 5px;
             text-align: center; 
             border: 1px solid #ccc;
@@ -91,7 +98,7 @@
             background-color: #4CAF50; 
             color: white;
             border: 1px solid #4CAF50; 
-            width: 50px; 
+            width: 40px; 
             padding: 8px 0; 
             cursor: pointer;
             font-size: 16px; 
@@ -109,11 +116,16 @@
             background-color: #ffe0b2;
             font-size: 1.3em;
         }
+        .total-label {
+            text-align: right !important;
+            padding-right: 20px;
+        }
         #grand-total {
             font-size: 1.6em !important; 
             font-weight: bold;
             color: #d32f2f; 
-            text-align: center !important; 
+            text-align: center !important;
+            width: 150px; 
         }
         .action-buttons-container {
             display: flex;
@@ -175,7 +187,7 @@
                     <td id="price-sjb">6</td>
                     <td>
                         <div class="input-group">
-                            <input type="number" id="qty-sjb" min="0" inputmode="numeric" pattern="[0-9]*" oninput="calculateTotal()">
+                            <input type="tel" id="qty-sjb" inputmode="numeric" pattern="[0-9]*" oninput="calculateTotal()">
                             <button class="qty-button decrement" onclick="adjustQuantity('qty-sjb', -1)">-</button>
                             <button class="qty-button increment" onclick="adjustQuantity('qty-sjb', 1)">+</button>
                         </div>
@@ -187,7 +199,7 @@
                     <td id="price-xb">25</td>
                     <td>
                         <div class="input-group">
-                            <input type="number" id="qty-xb" min="0" inputmode="numeric" pattern="[0-9]*" oninput="calculateTotal()">
+                            <input type="tel" id="qty-xb" inputmode="numeric" pattern="[0-9]*" oninput="calculateTotal()">
                             <button class="qty-button decrement" onclick="adjustQuantity('qty-xb', -1)">-</button>
                             <button class="qty-button increment" onclick="adjustQuantity('qty-xb', 1)">+</button>
                         </div>
@@ -199,7 +211,7 @@
                     <td id="price-mxg">35</td>
                     <td>
                         <div class="input-group">
-                            <input type="number" id="qty-mxg" min="0" inputmode="numeric" pattern="[0-9]*" oninput="calculateTotal()">
+                            <input type="tel" id="qty-mxg" inputmode="numeric" pattern="[0-9]*" oninput="calculateTotal()">
                             <button class="qty-button decrement" onclick="adjustQuantity('qty-mxg', -1)">-</button>
                             <button class="qty-button increment" onclick="adjustQuantity('qty-mxg', 1)">+</button>
                         </div>
@@ -225,7 +237,7 @@
                     <td id="price-dz">20</td>
                     <td>
                         <div class="input-group">
-                            <input type="number" id="qty-dz" min="0" inputmode="numeric" pattern="[0-9]*" oninput="calculateTotal()">
+                            <input type="tel" id="qty-dz" inputmode="numeric" pattern="[0-9]*" oninput="calculateTotal()">
                             <button class="qty-button decrement" onclick="adjustQuantity('qty-dz', -1)">-</button>
                             <button class="qty-button increment" onclick="adjustQuantity('qty-dz', 1)">+</button>
                         </div>
@@ -237,7 +249,7 @@
                     <td id="price-hc">20</td>
                     <td>
                         <div class="input-group">
-                            <input type="number" id="qty-hc" min="0" inputmode="numeric" pattern="[0-9]*" oninput="calculateTotal()">
+                            <input type="tel" id="qty-hc" inputmode="numeric" pattern="[0-9]*" oninput="calculateTotal()">
                             <button class="qty-button decrement" onclick="adjustQuantity('qty-hc', -1)">-</button>
                             <button class="qty-button increment" onclick="adjustQuantity('qty-hc', 1)">+</button>
                         </div>
@@ -249,7 +261,7 @@
                     <td id="price-hcdz">20</td>
                     <td>
                         <div class="input-group">
-                            <input type="number" id="qty-hcdz" min="0" inputmode="numeric" pattern="[0-9]*" oninput="calculateTotal()">
+                            <input type="tel" id="qty-hcdz" inputmode="numeric" pattern="[0-9]*" oninput="calculateTotal()">
                             <button class="qty-button decrement" onclick="adjustQuantity('qty-hcdz', -1)">-</button>
                             <button class="qty-button increment" onclick="adjustQuantity('qty-hcdz', 1)">+</button>
                         </div>
@@ -261,7 +273,7 @@
                     <td id="price-xnt">35</td>
                     <td>
                         <div class="input-group">
-                            <input type="number" id="qty-xnt" min="0" inputmode="numeric" pattern="[0-9]*" oninput="calculateTotal()">
+                            <input type="tel" id="qty-xnt" inputmode="numeric" pattern="[0-9]*" oninput="calculateTotal()">
                             <button class="qty-button decrement" onclick="adjustQuantity('qty-xnt', -1)">-</button>
                             <button class="qty-button increment" onclick="adjustQuantity('qty-xnt', 1)">+</button>
                         </div>
@@ -273,8 +285,8 @@
 
         <table style="margin-top: 40px;">
             <tr class="total-row">
-                <td colspan="3" style="text-align: right; border-right: none;"><strong>總計金額</strong></td>
-                <td id="grand-total" style="border-left: none;">0</td>
+                <td class="total-label" style="border-right: none;"><strong>總計金額</strong></td>
+                <td id="grand-total" style="border-left: none; width: 30%;">0</td>
             </tr>
         </table>
 
@@ -290,7 +302,7 @@
             </div>
         </div>
         
-        <p style="text-align: center; margin-top: 15px; font-size: 0.9em; color: #666;">v260105.7</p>
+        <p style="text-align: center; margin-top: 15px; font-size: 0.9em; color: #666;">v260105.9</p>
         
         <div id="history-container">
             <h2 style="margin-top: 40px; border-bottom: 2px solid #4CAF50; color: #4CAF50;">歷史訂單記錄</h2>
@@ -348,7 +360,9 @@
         }
 
         function clearQuantities() {
-            document.querySelectorAll('input[type="number"]').forEach(input => input.value = '');
+            document.querySelectorAll('input').forEach(input => {
+                if(input.id.startsWith('qty-')) input.value = '';
+            });
             calculateTotal();
         }
 
@@ -381,7 +395,7 @@
             let orderHTML = `
                 <div class="saved-order-item" style="border: 2px solid #ccc; padding: 15px; margin-bottom: 20px; border-radius: 8px; background-color: #f9f9f9; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
                     <p style="font-weight: bold; margin-bottom: 10px; color: #666; border-bottom: 1px dashed #ddd; padding-bottom: 5px;">儲存時間：${timestamp}</p>
-                    <table style="width: 100%; font-size: 0.9em; margin-top: 0; border-collapse: collapse;">
+                    <table style="width: 100%; font-size: 0.9em; margin-top: 0; border-collapse: collapse; table-layout: auto;">
                         <thead>
                             <tr style="background-color: #e0f2f1;">
                                 <th style="border: none; text-align: left; padding: 5px;">品項</th>
