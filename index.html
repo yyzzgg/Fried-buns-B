@@ -6,13 +6,17 @@
     <title>吉尼森美語繳費通知單</title> 
     <style>
         body {
-            font-family: '微軟正黑體', 'Arial', sans-serif;
+            font-family: 'PingFang TC', 'Heiti TC', '微軟正黑體', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
             margin: 0;
             padding: 0;
             background-color: #fff8e1;
             color: #333;
             font-size: 110%;
             line-height: 1.6;
+            font-weight: 500;
+            touch-action: pan-y;
         }
         .header {
             background-color: #ff9800;
@@ -21,9 +25,7 @@
             text-align: center;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-        .header h1 {
-            margin: 5px 0;
-        }
+        .header h1 { margin: 0; font-weight: 900; }
         .container {
             max-width: 800px;
             margin: 40px auto;
@@ -32,83 +34,41 @@
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
-        h2 {
-            color: #d32f2f;
-            border-bottom: 2px solid #ff9800;
-            padding-bottom: 5px;
-            margin-top: 30px;
-            font-size: 1.8em;
-        }
-        h3 {
-            color: #4CAF50;
-            border-left: 5px solid #4CAF50;
-            padding-left: 10px;
-            margin-top: 30px;
-            font-size: 1.4em;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-            font-size: 1em;
-            table-layout: fixed;
-        }
-        th, td {
-            border: 1px solid #ccc;
-            padding: 12px 10px;
-            text-align: center;
-            overflow: hidden;
-        }
-        th {
-            background-color: #f5e0a9;
-            color: #333;
-        }
-        th:nth-child(1), td:nth-child(1) { width: 35%; }
-        th:nth-child(2), td:nth-child(2) { width: 20%; }
-        th:nth-child(3), td:nth-child(3) { width: 25%; }
-        th:nth-child(4), td:nth-child(4) { width: 20%; }
+        h2 { color: #d32f2f; border-bottom: 2px solid #ff9800; padding-bottom: 5px; margin-top: 30px; font-size: 1.8em; font-weight: 700; }
+        h3 { color: #4CAF50; border-left: 5px solid #4CAF50; padding-left: 10px; margin-top: 30px; font-size: 1.4em; font-weight: 700; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 1em; table-layout: fixed; }
+        th, td { border: 1px solid #ccc; padding: 12px 10px; text-align: center; overflow: hidden; font-weight: 600; }
+        th { background-color: #f5e0a9; color: #333; font-weight: 900; }
+        
+        /* 調整表格寬度比例 */
+        th:nth-child(1), td:nth-child(1) { width: 30%; }
+        th:nth-child(2), td:nth-child(2) { width: 22%; }
+        th:nth-child(3), td:nth-child(3) { width: 26%; }
+        th:nth-child(4), td:nth-child(4) { width: 22%; }
 
-        td:nth-child(1) {
-            font-weight: bold;
-            text-align: center;
-        }
-        td[id^="price-"], td[id^="subtotal-"] {
-            font-size: 1.15em; 
-            font-weight: bold; 
-            color: #333;
-        }
-        .input-group {
-            display: flex; 
-            align-items: stretch; 
-            justify-content: center;
-            max-width: 280px; 
-            margin: 0 auto;
-            gap: 5px; 
-        }
-        /* 優化輸入框在外觀上的統一性 */
         input[type="text"] {
             width: 60px; 
             padding: 8px 5px;
             text-align: center; 
             border: 1px solid #ccc;
             border-radius: 4px; 
-            font-size: 18px; /* 增加到18px防止iOS自動縮放頁面 */
+            font-size: 18px; 
+            font-weight: 700;
             margin: 0; 
-            -webkit-appearance: none; /* 移除iOS內建陰影 */
+            -webkit-appearance: none;
         }
-        .received-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+        .received-container { display: flex; align-items: center; justify-content: center; gap: 10px; }
+        #received-amount { width: 120px; font-size: 1.2em; font-weight: 900; color: #2e7d32; border: 2px solid #4CAF50; }
+        
+        .qty-button, .btn-clear-small, .button-common {
+            cursor: pointer;
+            touch-action: manipulation;
+            -webkit-user-select: none;
+            user-select: none;
+            font-weight: 900;
         }
-        #received-amount {
-            width: 120px;
-            font-size: 1.2em;
-            font-weight: bold;
-            color: #2e7d32;
-            border: 2px solid #4CAF50;
-        }
+
         .btn-clear-small {
             background-color: #f44336;
             color: white;
@@ -116,8 +76,6 @@
             border-radius: 50%;
             width: 35px;
             height: 35px;
-            cursor: pointer;
-            font-weight: bold;
             font-size: 18px;
             display: flex;
             align-items: center;
@@ -130,46 +88,17 @@
             border: 1px solid #4CAF50; 
             width: 45px; 
             padding: 8px 0; 
-            cursor: pointer;
-            font-size: 20px; 
-            font-weight: bold;
+            font-size: 24px;
             border-radius: 4px; 
         }
-        .total-row td {
-            font-weight: bold;
-            background-color: #ffe0b2;
-        }
-        .change-row td {
-            font-weight: bold;
-            background-color: #e8f5e9;
-        }
-        .total-label {
-            text-align: right !important;
-            padding-right: 20px;
-            font-size: 1.2em;
-        }
-        #grand-total, #change-amount {
-            font-size: 1.6em !important; 
-            font-weight: bold;
-            color: #d32f2f; 
-        }
-        #change-amount {
-            color: #2e7d32;
-        }
-        .action-buttons-container {
-            display: flex;
-            justify-content: space-between; 
-            margin-top: 20px;
-            gap: 10px;
-        }
-        .button-common {
-            padding: 12px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1em;
-            color: white;
-        }
+        .total-row td { font-weight: 900; background-color: #ffe0b2; }
+        .change-row td { font-weight: 900; background-color: #e8f5e9; }
+        .total-label { text-align: right !important; padding-right: 20px; font-size: 1.2em; }
+        #grand-total, #change-amount { font-size: 1.8em !important; font-weight: 900; color: #d32f2f; }
+        #change-amount { color: #2e7d32; }
+        
+        .action-buttons-container { display: flex; justify-content: space-between; margin-top: 20px; gap: 10px; }
+        .button-common { padding: 12px 15px; border: none; border-radius: 5px; font-size: 1em; color: white; font-weight: 700; }
         .export-button { background-color: #2196F3; }
         .delete-all-button, .clear-button { background-color: #f44336; }
         .save-button { background-color: #4CAF50; }
@@ -182,17 +111,15 @@
     </div>
 
     <div class="container">
-        
         <h2>品項與金額計算</h2>
-
         <h3>主食</h3>
         <table>
             <thead>
                 <tr>
                     <th>品項名稱</th>
-                    <th>單價 (NT$)</th>
+                    <th>單價(NT$)</th>
                     <th>購買數量</th>
-                    <th>小計 (NT$)</th>
+                    <th>小計(NT$)</th>
                 </tr>
             </thead>
             <tbody>
@@ -237,6 +164,14 @@
         
         <h3>飲品</h3>
         <table>
+            <thead>
+                <tr>
+                    <th>品項名稱</th>
+                    <th>單價(NT$)</th>
+                    <th>購買數量</th>
+                    <th>小計(NT$)</th>
+                </tr>
+            </thead>
             <tbody>
                 <tr>
                     <td>豆漿</td>
@@ -320,13 +255,12 @@
             </div>
         </div>
         
-        <p style="text-align: center; margin-top: 15px; font-size: 0.9em; color: #666;">v260105.12</p>
+        <p style="text-align: center; margin-top: 15px; font-size: 0.9em; color: #666;">v260110.16</p>
         
         <div id="history-container">
             <h2 style="margin-top: 40px; border-bottom: 2px solid #4CAF50; color: #4CAF50;">歷史訂單記錄</h2>
             <p id="no-history-msg" style="color: #999; text-align: center; margin-top: 20px;">點擊「儲存訂單」後，訂單將會顯示在此處。</p>
         </div>
-
     </div>
 
     <script>
