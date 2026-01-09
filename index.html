@@ -2,7 +2,7 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>吉尼森美語繳費通知單</title> 
     <style>
         body {
@@ -85,39 +85,55 @@
             margin: 0 auto;
             gap: 5px; 
         }
-        input {
+        /* 優化輸入框在外觀上的統一性 */
+        input[type="text"] {
             width: 60px; 
             padding: 8px 5px;
             text-align: center; 
             border: 1px solid #ccc;
             border-radius: 4px; 
-            font-size: 16px; 
+            font-size: 18px; /* 增加到18px防止iOS自動縮放頁面 */
             margin: 0; 
+            -webkit-appearance: none; /* 移除iOS內建陰影 */
         }
-        /* 實收金額專用樣式 */
+        .received-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
         #received-amount {
-            width: 100px;
+            width: 120px;
             font-size: 1.2em;
             font-weight: bold;
             color: #2e7d32;
             border: 2px solid #4CAF50;
         }
+        .btn-clear-small {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
         .qty-button {
             background-color: #4CAF50; 
             color: white;
             border: 1px solid #4CAF50; 
-            width: 40px; 
+            width: 45px; 
             padding: 8px 0; 
             cursor: pointer;
-            font-size: 16px; 
+            font-size: 20px; 
             font-weight: bold;
-            line-height: 1; 
-            transition: background-color 0.2s;
             border-radius: 4px; 
-            margin: 0; 
-        }
-        .qty-button:hover {
-            background-color: #43A047;
         }
         .total-row td {
             font-weight: bold;
@@ -136,43 +152,27 @@
             font-size: 1.6em !important; 
             font-weight: bold;
             color: #d32f2f; 
-            text-align: center !important;
         }
         #change-amount {
-            color: #2e7d32; /* 找零使用綠色 */
+            color: #2e7d32;
         }
         .action-buttons-container {
             display: flex;
             justify-content: space-between; 
-            align-items: flex-start;
             margin-top: 20px;
             gap: 10px;
         }
-        .left-buttons-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .right-buttons-group {
-            display: flex;
-            gap: 10px;
-        }
         .button-common {
-            padding: 10px 20px;
+            padding: 12px 15px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s;
             font-size: 1em;
             color: white;
-            text-align: center;
         }
         .export-button { background-color: #2196F3; }
-        .export-button:hover { background-color: #1976D2; }
         .delete-all-button, .clear-button { background-color: #f44336; }
-        .delete-all-button:hover, .clear-button:hover { background-color: #d32f2f; }
         .save-button { background-color: #4CAF50; }
-        .save-button:hover { background-color: #43A047; }
     </style>
 </head>
 <body>
@@ -201,9 +201,9 @@
                     <td id="price-sjb">6</td>
                     <td>
                         <div class="input-group">
-                            <input type="tel" id="qty-sjb" inputmode="numeric" pattern="[0-9]*" oninput="calculateTotal()">
-                            <button class="qty-button decrement" onclick="adjustQuantity('qty-sjb', -1)">-</button>
-                            <button class="qty-button increment" onclick="adjustQuantity('qty-sjb', 1)">+</button>
+                            <input type="text" id="qty-sjb" inputmode="decimal" pattern="[0-9]*" autocomplete="off" oninput="calculateTotal()">
+                            <button class="qty-button" onclick="adjustQuantity('qty-sjb', -1)">-</button>
+                            <button class="qty-button" onclick="adjustQuantity('qty-sjb', 1)">+</button>
                         </div>
                     </td>
                     <td id="subtotal-sjb">0</td>
@@ -213,9 +213,9 @@
                     <td id="price-xb">25</td>
                     <td>
                         <div class="input-group">
-                            <input type="tel" id="qty-xb" inputmode="numeric" pattern="[0-9]*" oninput="calculateTotal()">
-                            <button class="qty-button decrement" onclick="adjustQuantity('qty-xb', -1)">-</button>
-                            <button class="qty-button increment" onclick="adjustQuantity('qty-xb', 1)">+</button>
+                            <input type="text" id="qty-xb" inputmode="decimal" pattern="[0-9]*" autocomplete="off" oninput="calculateTotal()">
+                            <button class="qty-button" onclick="adjustQuantity('qty-xb', -1)">-</button>
+                            <button class="qty-button" onclick="adjustQuantity('qty-xb', 1)">+</button>
                         </div>
                     </td>
                     <td id="subtotal-xb">0</td>
@@ -225,9 +225,9 @@
                     <td id="price-mxg">35</td>
                     <td>
                         <div class="input-group">
-                            <input type="tel" id="qty-mxg" inputmode="numeric" pattern="[0-9]*" oninput="calculateTotal()">
-                            <button class="qty-button decrement" onclick="adjustQuantity('qty-mxg', -1)">-</button>
-                            <button class="qty-button increment" onclick="adjustQuantity('qty-mxg', 1)">+</button>
+                            <input type="text" id="qty-mxg" inputmode="decimal" pattern="[0-9]*" autocomplete="off" oninput="calculateTotal()">
+                            <button class="qty-button" onclick="adjustQuantity('qty-mxg', -1)">-</button>
+                            <button class="qty-button" onclick="adjustQuantity('qty-mxg', 1)">+</button>
                         </div>
                     </td>
                     <td id="subtotal-mxg">0</td>
@@ -237,23 +237,15 @@
         
         <h3>飲品</h3>
         <table>
-            <thead>
-                <tr>
-                    <th>品項名稱</th>
-                    <th>單價 (NT$)</th>
-                    <th>購買數量</th>
-                    <th>小計 (NT$)</th>
-                </tr>
-            </thead>
             <tbody>
                 <tr>
                     <td>豆漿</td>
                     <td id="price-dz">20</td>
                     <td>
                         <div class="input-group">
-                            <input type="tel" id="qty-dz" inputmode="numeric" pattern="[0-9]*" oninput="calculateTotal()">
-                            <button class="qty-button decrement" onclick="adjustQuantity('qty-dz', -1)">-</button>
-                            <button class="qty-button increment" onclick="adjustQuantity('qty-dz', 1)">+</button>
+                            <input type="text" id="qty-dz" inputmode="decimal" pattern="[0-9]*" autocomplete="off" oninput="calculateTotal()">
+                            <button class="qty-button" onclick="adjustQuantity('qty-dz', -1)">-</button>
+                            <button class="qty-button" onclick="adjustQuantity('qty-dz', 1)">+</button>
                         </div>
                     </td>
                     <td id="subtotal-dz">0</td>
@@ -263,9 +255,9 @@
                     <td id="price-hc">20</td>
                     <td>
                         <div class="input-group">
-                            <input type="tel" id="qty-hc" inputmode="numeric" pattern="[0-9]*" oninput="calculateTotal()">
-                            <button class="qty-button decrement" onclick="adjustQuantity('qty-hc', -1)">-</button>
-                            <button class="qty-button increment" onclick="adjustQuantity('qty-hc', 1)">+</button>
+                            <input type="text" id="qty-hc" inputmode="decimal" pattern="[0-9]*" autocomplete="off" oninput="calculateTotal()">
+                            <button class="qty-button" onclick="adjustQuantity('qty-hc', -1)">-</button>
+                            <button class="qty-button" onclick="adjustQuantity('qty-hc', 1)">+</button>
                         </div>
                     </td>
                     <td id="subtotal-hc">0</td>
@@ -275,9 +267,9 @@
                     <td id="price-hcdz">20</td>
                     <td>
                         <div class="input-group">
-                            <input type="tel" id="qty-hcdz" inputmode="numeric" pattern="[0-9]*" oninput="calculateTotal()">
-                            <button class="qty-button decrement" onclick="adjustQuantity('qty-hcdz', -1)">-</button>
-                            <button class="qty-button increment" onclick="adjustQuantity('qty-hcdz', 1)">+</button>
+                            <input type="text" id="qty-hcdz" inputmode="decimal" pattern="[0-9]*" autocomplete="off" oninput="calculateTotal()">
+                            <button class="qty-button" onclick="adjustQuantity('qty-hcdz', -1)">-</button>
+                            <button class="qty-button" onclick="adjustQuantity('qty-hcdz', 1)">+</button>
                         </div>
                     </td>
                     <td id="subtotal-hcdz">0</td>
@@ -287,9 +279,9 @@
                     <td id="price-xnt">35</td>
                     <td>
                         <div class="input-group">
-                            <input type="tel" id="qty-xnt" inputmode="numeric" pattern="[0-9]*" oninput="calculateTotal()">
-                            <button class="qty-button decrement" onclick="adjustQuantity('qty-xnt', -1)">-</button>
-                            <button class="qty-button increment" onclick="adjustQuantity('qty-xnt', 1)">+</button>
+                            <input type="text" id="qty-xnt" inputmode="decimal" pattern="[0-9]*" autocomplete="off" oninput="calculateTotal()">
+                            <button class="qty-button" onclick="adjustQuantity('qty-xnt', -1)">-</button>
+                            <button class="qty-button" onclick="adjustQuantity('qty-xnt', 1)">+</button>
                         </div>
                     </td>
                     <td id="subtotal-xnt">0</td>
@@ -305,7 +297,10 @@
             <tr>
                 <td class="total-label" style="border-right: none; background-color: #fffde7;"><strong>實收金額</strong></td>
                 <td style="border-left: none; width: 35%; background-color: #fffde7;">
-                    <input type="tel" id="received-amount" inputmode="numeric" pattern="[0-9]*" placeholder="輸入金額" oninput="calculateChange()">
+                    <div class="received-container">
+                        <input type="text" id="received-amount" inputmode="decimal" pattern="[0-9]*" autocomplete="off" placeholder="輸入金額" oninput="calculateChange()">
+                        <button class="btn-clear-small" onclick="clearReceivedAmount()">✕</button>
+                    </div>
                 </td>
             </tr>
             <tr class="change-row">
@@ -315,18 +310,17 @@
         </table>
 
         <div class="action-buttons-container">
-            <div class="left-buttons-group">
-                <button class="button-common export-button" onclick="exportToCSV()">匯出歷史紀錄 (CSV)</button>
-                <button class="button-common delete-all-button" onclick="deleteAllOrders()">清空所有紀錄</button>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <button class="button-common export-button" onclick="exportToCSV()">匯出紀錄 (CSV)</button>
+                <button class="button-common delete-all-button" onclick="deleteAllOrders()">清空歷史</button>
             </div>
-            
-            <div class="right-buttons-group">
+            <div style="display: flex; gap: 10px;">
                 <button class="button-common save-button" onclick="saveOrder()">儲存訂單</button>
-                <button class="button-common clear-button" onclick="clearQuantities()">清空全部欄位</button>
+                <button class="button-common clear-button" onclick="clearQuantities()">全部重置</button>
             </div>
         </div>
         
-        <p style="text-align: center; margin-top: 15px; font-size: 0.9em; color: #666;">v260105.10</p>
+        <p style="text-align: center; margin-top: 15px; font-size: 0.9em; color: #666;">v260105.12</p>
         
         <div id="history-container">
             <h2 style="margin-top: 40px; border-bottom: 2px solid #4CAF50; color: #4CAF50;">歷史訂單記錄</h2>
@@ -352,9 +346,7 @@
         function updateLocalStorage() {
             const orderItems = document.querySelectorAll('.saved-order-item');
             let combinedHTML = "";
-            orderItems.forEach(item => {
-                combinedHTML += item.outerHTML;
-            });
+            orderItems.forEach(item => { combinedHTML += item.outerHTML; });
             localStorage.setItem('orderHistory', combinedHTML);
         }
 
@@ -381,14 +373,13 @@
                 }
             });
             document.getElementById('grand-total').textContent = grandTotal.toFixed(0);
-            calculateChange(); // 數量改變時也重新計算找零
+            calculateChange();
         }
 
         function calculateChange() {
             const total = parseFloat(document.getElementById('grand-total').textContent) || 0;
             const received = parseFloat(document.getElementById('received-amount').value) || 0;
             const changeElement = document.getElementById('change-amount');
-            
             if (received >= total && total > 0) {
                 changeElement.textContent = (received - total).toFixed(0);
             } else {
@@ -396,17 +387,19 @@
             }
         }
 
+        function clearReceivedAmount() {
+            document.getElementById('received-amount').value = '';
+            calculateChange();
+        }
+
         function clearQuantities() {
-            document.querySelectorAll('input').forEach(input => {
-                input.value = '';
-            });
+            document.querySelectorAll('input[type="text"]').forEach(input => { input.value = ''; });
             calculateTotal();
         }
 
         function saveOrder() {
             let orderDetails = [];
             let currentGrandTotal = 0;
-
             items.forEach(item => {
                 const itemID = `qty-${item}`;
                 const itemQty = parseInt(document.getElementById(itemID).value) || 0;
@@ -424,110 +417,66 @@
                 return;
             }
 
-            const timestamp = new Date().toLocaleString('zh-TW', {
-                year: 'numeric', month: '2-digit', day: '2-digit', 
-                hour: '2-digit', minute: '2-digit', second: '2-digit'
-            });
-
+            const timestamp = new Date().toLocaleString('zh-TW');
             let orderHTML = `
-                <div class="saved-order-item" style="border: 2px solid #ccc; padding: 15px; margin-bottom: 20px; border-radius: 8px; background-color: #f9f9f9; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
-                    <p style="font-weight: bold; margin-bottom: 10px; color: #666; border-bottom: 1px dashed #ddd; padding-bottom: 5px;">儲存時間：${timestamp}</p>
-                    <table style="width: 100%; font-size: 0.9em; margin-top: 0; border-collapse: collapse; table-layout: auto;">
+                <div class="saved-order-item" style="border: 2px solid #ccc; padding: 15px; margin-bottom: 20px; border-radius: 8px; background-color: #f9f9f9;">
+                    <p style="font-weight: bold; margin-bottom: 10px; color: #666;">儲存時間：${timestamp}</p>
+                    <table style="width: 100%; font-size: 0.9em; margin-top: 0; border-collapse: collapse;">
                         <thead>
                             <tr style="background-color: #e0f2f1;">
                                 <th style="border: none; text-align: left; padding: 5px;">品項</th>
                                 <th style="border: none; width: 60px; padding: 5px;">數量</th>
-                                <th style="border: none; width: 80px; padding: 5px; text-align: center;">小計</th>
+                                <th style="border: none; width: 80px; padding: 5px;">小計</th>
                             </tr>
                         </thead>
-                        <tbody>
-            `;
-
+                        <tbody>`;
             orderDetails.forEach(item => {
-                orderHTML += `
-                    <tr>
-                        <td style="border: none; text-align: left; padding: 3px 5px;">${item.name}</td>
-                        <td style="border: none; padding: 3px 5px; text-align: center;">${item.qty}</td>
-                        <td style="border: none; padding: 3px 5px; text-align: center; font-weight: bold;">${item.subtotal}</td>
-                    </tr>
-                `;
+                orderHTML += `<tr><td style="border: none; text-align: left;">${item.name}</td><td style="border: none;">${item.qty}</td><td style="border: none; font-weight: bold;">${item.subtotal}</td></tr>`;
             });
-            
-            orderHTML += `
-                        </tbody>
-                    </table>
-                    <p style="text-align: right; font-size: 1.2em; font-weight: bold; margin-top: 10px; color: #d32f2f; padding-top: 5px; border-top: 1px solid #ddd; display: flex; justify-content: space-between; align-items: center;">
-                        <span>總計：NT$ ${currentGrandTotal}</span>
-                        <button onclick="deleteOrder(this)" style="background-color: #f44336; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8em;">刪除此筆訂單</button>
-                    </p>
-                </div>
-            `;
-
+            orderHTML += `</tbody></table><p style="text-align: right; font-size: 1.2em; font-weight: bold; margin-top: 10px; color: #d32f2f; display: flex; justify-content: space-between;"><span>總計：NT$ ${currentGrandTotal}</span><button onclick="deleteOrder(this)" style="background-color: #f44336; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">刪除</button></p></div>`;
             const historyContainer = document.getElementById('history-container');
             const noHistoryMsg = document.getElementById('no-history-msg');
             if (noHistoryMsg) noHistoryMsg.remove();
-
             historyContainer.insertAdjacentHTML('beforeend', orderHTML);
             updateLocalStorage();
             clearQuantities(); 
             alert(`訂單已儲存！`);
         }
 
-        function deleteOrder(buttonElement) {
-            if (!confirm("確定要刪除這筆訂單紀錄嗎？")) return;
-            const orderContainer = buttonElement.closest('.saved-order-item');
-            if (orderContainer) {
-                orderContainer.remove();
-                updateLocalStorage();
-            }
-            const historyContainer = document.getElementById('history-container');
-            if (historyContainer.querySelectorAll('.saved-order-item').length === 0) {
-                 if (!document.getElementById('no-history-msg')) {
-                    historyContainer.insertAdjacentHTML('beforeend', '<p id="no-history-msg" style="color: #999; text-align: center; margin-top: 20px;">點擊「儲存訂單」後，訂單將會顯示在此處。</p>');
-                 }
-                 localStorage.removeItem('orderHistory');
+        function deleteOrder(btn) {
+            if (!confirm("確定刪除？")) return;
+            btn.closest('.saved-order-item').remove();
+            updateLocalStorage();
+            if (document.querySelectorAll('.saved-order-item').length === 0) {
+                localStorage.removeItem('orderHistory');
+                location.reload(); 
             }
         }
 
         function deleteAllOrders() {
-            if (!confirm("⚠️ 警告：這將會清除「所有」已儲存的歷史訂單紀錄且無法復原！確定要清空嗎？")) return;
-            
-            const historyContainer = document.getElementById('history-container');
-            const orderItems = historyContainer.querySelectorAll('.saved-order-item');
-            orderItems.forEach(item => item.remove());
-            
-            if (!document.getElementById('no-history-msg')) {
-                historyContainer.insertAdjacentHTML('beforeend', '<p id="no-history-msg" style="color: #999; text-align: center; margin-top: 20px;">點擊「儲存訂單」後，訂單將會顯示在此處。</p>');
-            }
-            
+            if (!confirm("確定清空所有紀錄？")) return;
             localStorage.removeItem('orderHistory');
-            alert("歷史紀錄已全部清空。");
+            location.reload();
         }
         
         function exportToCSV() {
             const orders = document.querySelectorAll('.saved-order-item');
-            if (orders.length === 0) {
-                alert("目前沒有紀錄可以匯出。");
-                return;
-            }
-            let csvContent = "訂單ID,儲存時間,訂單總計,品項名稱,數量,小計\n";
-            let orderCount = 1; 
-            orders.forEach(orderDiv => {
-                const currentOrderID = orderCount++; 
-                const timestamp = orderDiv.querySelector('p:first-child').textContent.replace('儲存時間：', '').trim();
-                const total = orderDiv.querySelector('p:last-child > span').textContent.replace('總計：NT$ ', '').trim();
-                orderDiv.querySelectorAll('tbody tr').forEach(row => {
-                    const cells = row.querySelectorAll('td');
-                    csvContent += `${currentOrderID},"${timestamp}","${total}","${cells[0].textContent.trim()}",${cells[1].textContent.trim()},${cells[2].textContent.trim()}\n`;
+            if (orders.length === 0) return alert("無紀錄可匯出");
+            let csv = "訂單,時間,總計,品項,數量,小計\n";
+            orders.forEach((div, idx) => {
+                const time = div.querySelector('p').textContent.replace('儲存時間：', '');
+                const total = div.querySelector('span').textContent.replace('總計：NT$ ', '');
+                div.querySelectorAll('tbody tr').forEach(tr => {
+                    const tds = tr.querySelectorAll('td');
+                    csv += `${idx+1},"${time}","${total}","${tds[0].textContent}",${tds[1].textContent},${tds[2].textContent}\n`;
                 });
             });
-            const blob = new Blob([new Uint8Array([0xEF, 0xBB, 0xBF]), csvContent], { type: 'text/csv;charset=utf-8;' }); 
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = `OrderHistory_${new Date().toISOString().slice(0, 10).replace(/-/g, '')}.csv`;
-            link.click();
+            const blob = new Blob([new Uint8Array([0xEF, 0xBB, 0xBF]), csv], { type: 'text/csv' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = `History_${new Date().getTime()}.csv`;
+            a.click();
         }
     </script>
-
 </body>
 </html>
