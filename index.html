@@ -183,7 +183,7 @@
             </div>
         </div>
         
-        <p style="text-align: center; margin-top: 15px; font-size: 0.9em; color: #666;">v260110.21</p>
+        <p style="text-align: center; margin-top: 15px; font-size: 0.9em; color: #666;">v260110.22</p>
         
         <div id="history-container">
             <h2 style="margin-top: 40px; border-bottom: 2px solid #4CAF50; color: #4CAF50;">歷史訂單記錄</h2>
@@ -208,9 +208,10 @@
 
         function startAdjusting(itemId, change) {
             adjustQuantity(itemId, change);
+            // 改為 800 毫秒才啟動連發，每 150 毫秒跳動一次
             adjustTimer = setTimeout(() => {
-                adjustTimer = setInterval(() => { adjustQuantity(itemId, change); }, 100);
-            }, 500);
+                adjustTimer = setInterval(() => { adjustQuantity(itemId, change); }, 150);
+            }, 800);
         }
 
         function stopAdjusting() {
