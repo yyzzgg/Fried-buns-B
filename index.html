@@ -85,8 +85,8 @@
                     <td>
                         <div class="input-group">
                             <input type="tel" id="qty-sjb" pattern="[0-9]*" inputmode="numeric" oninput="calculateTotal()">
-                            <button class="qty-button" ontouchstart="startAdjusting('qty-sjb', -1)" ontouchend="stopAdjusting()" onmousedown="startAdjusting('qty-sjb', -1)" onmouseup="stopAdjusting()">-</button>
-                            <button class="qty-button" ontouchstart="startAdjusting('qty-sjb', 1)" ontouchend="stopAdjusting()" onmousedown="startAdjusting('qty-sjb', 1)" onmouseup="stopAdjusting()">+</button>
+                            <button class="qty-button" ontouchstart="handlePress(event, 'qty-sjb', -1)" ontouchend="stopAdjusting(event)" onmousedown="handlePress(event, 'qty-sjb', -1)" onmouseup="stopAdjusting(event)">-</button>
+                            <button class="qty-button" ontouchstart="handlePress(event, 'qty-sjb', 1)" ontouchend="stopAdjusting(event)" onmousedown="handlePress(event, 'qty-sjb', 1)" onmouseup="stopAdjusting(event)">+</button>
                         </div>
                     </td><td id="subtotal-sjb">0</td>
                 </tr>
@@ -95,8 +95,8 @@
                     <td>
                         <div class="input-group">
                             <input type="tel" id="qty-xb" pattern="[0-9]*" inputmode="numeric" oninput="calculateTotal()">
-                            <button class="qty-button" ontouchstart="startAdjusting('qty-xb', -1)" ontouchend="stopAdjusting()" onmousedown="startAdjusting('qty-xb', -1)" onmouseup="stopAdjusting()">-</button>
-                            <button class="qty-button" ontouchstart="startAdjusting('qty-xb', 1)" ontouchend="stopAdjusting()" onmousedown="startAdjusting('qty-xb', 1)" onmouseup="stopAdjusting()">+</button>
+                            <button class="qty-button" ontouchstart="handlePress(event, 'qty-xb', -1)" ontouchend="stopAdjusting(event)" onmousedown="handlePress(event, 'qty-xb', -1)" onmouseup="stopAdjusting(event)">-</button>
+                            <button class="qty-button" ontouchstart="handlePress(event, 'qty-xb', 1)" ontouchend="stopAdjusting(event)" onmousedown="handlePress(event, 'qty-xb', 1)" onmouseup="stopAdjusting(event)">+</button>
                         </div>
                     </td><td id="subtotal-xb">0</td>
                 </tr>
@@ -105,8 +105,8 @@
                     <td>
                         <div class="input-group">
                             <input type="tel" id="qty-mxg" pattern="[0-9]*" inputmode="numeric" oninput="calculateTotal()">
-                            <button class="qty-button" ontouchstart="startAdjusting('qty-mxg', -1)" ontouchend="stopAdjusting()" onmousedown="startAdjusting('qty-mxg', -1)" onmouseup="stopAdjusting()">-</button>
-                            <button class="qty-button" ontouchstart="startAdjusting('qty-mxg', 1)" ontouchend="stopAdjusting()" onmousedown="startAdjusting('qty-mxg', 1)" onmouseup="stopAdjusting()">+</button>
+                            <button class="qty-button" ontouchstart="handlePress(event, 'qty-mxg', -1)" ontouchend="stopAdjusting(event)" onmousedown="handlePress(event, 'qty-mxg', -1)" onmouseup="stopAdjusting(event)">-</button>
+                            <button class="qty-button" ontouchstart="handlePress(event, 'qty-mxg', 1)" ontouchend="stopAdjusting(event)" onmousedown="handlePress(event, 'qty-mxg', 1)" onmouseup="stopAdjusting(event)">+</button>
                         </div>
                     </td><td id="subtotal-mxg">0</td>
                 </tr>
@@ -121,32 +121,32 @@
                     <td>豆漿</td><td id="price-dz">20</td>
                     <td><div class="input-group">
                         <input type="tel" id="qty-dz" pattern="[0-9]*" oninput="calculateTotal()">
-                        <button class="qty-button" ontouchstart="startAdjusting('qty-dz', -1)" ontouchend="stopAdjusting()" onmousedown="startAdjusting('qty-dz', -1)" onmouseup="stopAdjusting()">-</button>
-                        <button class="qty-button" ontouchstart="startAdjusting('qty-dz', 1)" ontouchend="stopAdjusting()" onmousedown="startAdjusting('qty-dz', 1)" onmouseup="stopAdjusting()">+</button>
+                        <button class="qty-button" ontouchstart="handlePress(event, 'qty-dz', -1)" ontouchend="stopAdjusting(event)" onmousedown="handlePress(event, 'qty-dz', -1)" onmouseup="stopAdjusting(event)">-</button>
+                        <button class="qty-button" ontouchstart="handlePress(event, 'qty-dz', 1)" ontouchend="stopAdjusting(event)" onmousedown="handlePress(event, 'qty-dz', 1)" onmouseup="stopAdjusting(event)">+</button>
                     </div></td><td id="subtotal-dz">0</td>
                 </tr>
                 <tr>
                     <td>紅茶</td><td id="price-hc">20</td>
                     <td><div class="input-group">
                         <input type="tel" id="qty-hc" pattern="[0-9]*" oninput="calculateTotal()">
-                        <button class="qty-button" ontouchstart="startAdjusting('qty-hc', -1)" ontouchend="stopAdjusting()" onmousedown="startAdjusting('qty-hc', -1)" onmouseup="stopAdjusting()">-</button>
-                        <button class="qty-button" ontouchstart="startAdjusting('qty-hc', 1)" ontouchend="stopAdjusting()" onmousedown="startAdjusting('qty-hc', 1)" onmouseup="stopAdjusting()">+</button>
+                        <button class="qty-button" ontouchstart="handlePress(event, 'qty-hc', -1)" ontouchend="stopAdjusting(event)" onmousedown="handlePress(event, 'qty-hc', -1)" onmouseup="stopAdjusting(event)">-</button>
+                        <button class="qty-button" ontouchstart="handlePress(event, 'qty-hc', 1)" ontouchend="stopAdjusting(event)" onmousedown="handlePress(event, 'qty-hc', 1)" onmouseup="stopAdjusting(event)">+</button>
                     </div></td><td id="subtotal-hc">0</td>
                 </tr>
                 <tr>
                     <td>紅茶豆漿</td><td id="price-hcdz">20</td>
                     <td><div class="input-group">
                         <input type="tel" id="qty-hcdz" pattern="[0-9]*" oninput="calculateTotal()">
-                        <button class="qty-button" ontouchstart="startAdjusting('qty-hcdz', -1)" ontouchend="stopAdjusting()" onmousedown="startAdjusting('qty-hcdz', -1)" onmouseup="stopAdjusting()">-</button>
-                        <button class="qty-button" ontouchstart="startAdjusting('qty-hcdz', 1)" ontouchend="stopAdjusting()" onmousedown="startAdjusting('qty-hcdz', 1)" onmouseup="stopAdjusting()">+</button>
+                        <button class="qty-button" ontouchstart="handlePress(event, 'qty-hcdz', -1)" ontouchend="stopAdjusting(event)" onmousedown="handlePress(event, 'qty-hcdz', -1)" onmouseup="stopAdjusting(event)">-</button>
+                        <button class="qty-button" ontouchstart="handlePress(event, 'qty-hcdz', 1)" ontouchend="stopAdjusting(event)" onmousedown="handlePress(event, 'qty-hcdz', 1)" onmouseup="stopAdjusting(event)">+</button>
                     </div></td><td id="subtotal-hcdz">0</td>
                 </tr>
                 <tr>
                     <td>鮮奶茶</td><td id="price-xnt">35</td>
                     <td><div class="input-group">
                         <input type="tel" id="qty-xnt" pattern="[0-9]*" oninput="calculateTotal()">
-                        <button class="qty-button" ontouchstart="startAdjusting('qty-xnt', -1)" ontouchend="stopAdjusting()" onmousedown="startAdjusting('qty-xnt', -1)" onmouseup="stopAdjusting()">-</button>
-                        <button class="qty-button" ontouchstart="startAdjusting('qty-xnt', 1)" ontouchend="stopAdjusting()" onmousedown="startAdjusting('qty-xnt', 1)" onmouseup="stopAdjusting()">+</button>
+                        <button class="qty-button" ontouchstart="handlePress(event, 'qty-xnt', -1)" ontouchend="stopAdjusting(event)" onmousedown="handlePress(event, 'qty-xnt', -1)" onmouseup="stopAdjusting(event)">-</button>
+                        <button class="qty-button" ontouchstart="handlePress(event, 'qty-xnt', 1)" ontouchend="stopAdjusting(event)" onmousedown="handlePress(event, 'qty-xnt', 1)" onmouseup="stopAdjusting(event)">+</button>
                     </div></td><td id="subtotal-xnt">0</td>
                 </tr>
             </tbody>
@@ -183,7 +183,7 @@
             </div>
         </div>
         
-        <p style="text-align: center; margin-top: 15px; font-size: 0.9em; color: #666;">v260110.22</p>
+        <p style="text-align: center; margin-top: 15px; font-size: 0.9em; color: #666;">v260110.23</p>
         
         <div id="history-container">
             <h2 style="margin-top: 40px; border-bottom: 2px solid #4CAF50; color: #4CAF50;">歷史訂單記錄</h2>
@@ -194,6 +194,7 @@
     <script>
         const items = ['sjb', 'xb', 'mxg', 'dz', 'hc', 'hcdz', 'xnt'];
         let adjustTimer;
+        let lastActionTime = 0; // 防抖鎖定
 
         window.onload = function() {
             const savedHistory = localStorage.getItem('orderHistory');
@@ -206,17 +207,32 @@
             calculateTotal();
         };
 
-        function startAdjusting(itemId, change) {
+        // 核心防抖與壓住判斷
+        function handlePress(e, itemId, change) {
+            const now = Date.now();
+            // 如果距離上次操作小於 250ms，視為誤觸，直接忽略
+            if (now - lastActionTime < 250) {
+                e.preventDefault();
+                return;
+            }
+            lastActionTime = now;
+
+            // 執行第一次短按
             adjustQuantity(itemId, change);
-            // 改為 800 毫秒才啟動連發，每 150 毫秒跳動一次
+
+            // 設定長按啟動
             adjustTimer = setTimeout(() => {
-                adjustTimer = setInterval(() => { adjustQuantity(itemId, change); }, 150);
+                adjustTimer = setInterval(() => { adjustQuantity(itemId, change); }, 200);
             }, 800);
+
+            // 阻止默認行為，防止 iPad 同時觸發 touch 和 click
+            if (e.type === 'touchstart') e.preventDefault();
         }
 
-        function stopAdjusting() {
+        function stopAdjusting(e) {
             clearTimeout(adjustTimer);
             clearInterval(adjustTimer);
+            if (e && e.type === 'touchend') e.preventDefault();
         }
 
         function adjustQuantity(itemId, change) {
